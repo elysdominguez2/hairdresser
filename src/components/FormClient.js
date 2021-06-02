@@ -1,7 +1,8 @@
 import React, { Fragment, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import PropTypes from 'prop-types';
 
-const FormClient = () => {
+const FormClient = ({ createAppoint }) => {
 	const [appoint, setAppoint] = useState({
 		client: '',
 		hairdresser: '',
@@ -35,10 +36,21 @@ const FormClient = () => {
 			return;
 		}
 		setError(false);
+
+		//ASIGNO UN ID
+		appoint.id = uuidv4();
+
+		//CREANDO LA CITA
+		createAppoint(appoint);
+
+		setAppoint({
+			client: '',
+			hairdresser: '',
+			date: '',
+			time: '',
+			service: '',
+		});
 	};
-	//ASIGNO UN ID
-	appoint.id = uuidv4();
-	console.log(appoint);
 
 	return (
 		<Fragment>
@@ -101,6 +113,10 @@ const FormClient = () => {
 			</form>
 		</Fragment>
 	);
+};
+
+FormClient.propTypes = {
+	createAppoint: PropTypes.func.isRequired,
 };
 
 export default FormClient;
